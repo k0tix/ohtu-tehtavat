@@ -54,7 +54,7 @@ public class StatisticsTest {
 
     @Test
     public void returnsCorrectScores() {
-        List<Player> scores = stats.topScorers(2);
+        List<Player> scores = stats.topScorers(3);
         assertEquals(3, scores.size());
         assertEquals("Gretzky", scores.get(0).getName());
         assertEquals("Lemieux", scores.get(1).getName());
