@@ -3,6 +3,7 @@ package ohtu;
 import com.google.gson.Gson;
 import java.io.IOException;
 import java.util.Date;
+import java.util.stream.Stream;
 
 import org.apache.http.client.fluent.Request;
 
@@ -18,11 +19,10 @@ public class Main {
         Date date = new Date();
         System.out.printf("Players from FIN %tc \n\n", date);
 
-        for (Player player : players) {
-            if (player.getNationality().equals("FIN")) {
-                System.out.println(player);
-            }
-        }   
+        Stream.of(players)
+            .filter(p -> p.getNationality().equals("FIN"))
+            .sorted((p1, p2) -> p2.getPoints() - p1.getPoints())
+            .forEach(p -> System.out.println(p));
     }
   
 }

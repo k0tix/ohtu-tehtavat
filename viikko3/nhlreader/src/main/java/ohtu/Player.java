@@ -54,6 +54,10 @@ public class Player {
         this.goals = goals;
     }
 
+    public int getPoints() {
+        return this.goals + this.assists;
+    }
+
     public String getTeam() {
         return team;
     }
@@ -68,7 +72,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return String.format("%s team %s goals %d assists %d", this.getName(), this.getTeam(), this.getGoals(), this.getAssists());
+        return String.format("%-25s %s %2d + %2d = %2d", this.getName(), this.getTeam(), this.getGoals(), this.getAssists(), this.getPoints());
     }
       
 }
