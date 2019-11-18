@@ -47,7 +47,43 @@ public class Stepdefs {
     @When("nonexisting username {string} and arbitrary password {string} are given")
     public void nonexistingUsernameAndPasswordAreGiven(String username, String password) {
         logInWith(username, password);
-        pageHasContent("invalid username or password");
+    }
+
+    @Given("command new user is selected")
+    public void commandNewUserIsSelected() {
+        driver.get(baseUrl);
+        WebElement element = driver.findElement(By.linkText("register new user"));
+        element.click();
+    }
+
+    @When("a valid username {string} and password {string} and matching password confirmation are entered")
+    public void aValidUsernameAndPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) {
+        createNewUser(username, password, password);
+    }
+
+    @Then("a new user is created")
+    public void aNewUserIsCreated() {
+        pageHasContent("Welcome to Ohtu Application!");
+    }
+
+    @When("a too short username {string} and password {string} and matching password confirmation are entered")
+    public void aTooShortUsernameAndPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) {
+        createNewUser(username, password, password);
+    }
+
+    @Then("user is not created and error {string} is reported")
+    public void userIsNotCreatedAndErrorIsReported(String error) {
+        pageHasContent(error);
+    }
+
+    @When("a correct username {string} and too short password {string} and matching password confirmation are entered")
+    public void aCorrectUsernameAndTooShortPasswordAndMatchingPasswordConfirmationAreEntered(String username, String password) {
+        createNewUser(username, password, password);
+    }
+
+    @When("a valid username {string} and password {string} and a different password confirmation {string} are entered")
+    public void aValidUsernameAndPasswordAndADifferentPasswordConfirmationAreEntered(String username, String password, String confirmation) {
+        createNewUser(username, password, confirmation);
     }
     
     @After
@@ -69,5 +105,17 @@ public class Stepdefs {
         element.sendKeys(password);
         element = driver.findElement(By.name("login"));
         element.submit();  
-    } 
+    }
+
+    private void createNewUser(String username, String password, String confirmation) {
+        assertTrue(driver.getPageSource().contains("Create username and give password"));
+        WebElement element = driver.findElement(By.name("username"));
+        element.sendKeys(username);
+        element = driver.findElement(By.name("password"));
+        element.sendKeys(password);
+        element = driver.findElement(By.name("passwordConfirmation"));
+        element.sendKeys(confirmation);
+        element = driver.findElement(By.name("signup"));
+        element.submit();
+    }
 }
