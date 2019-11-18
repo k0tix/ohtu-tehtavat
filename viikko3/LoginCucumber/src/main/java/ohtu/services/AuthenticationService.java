@@ -39,7 +39,13 @@ public class AuthenticationService {
     }
 
     private boolean invalid(String username, String password) {
-        // validity check of username and password
+        if (!username.matches("[a-z]+") || username.length() < 3) {
+            return true;
+        }
+
+        if (password.chars().allMatch(Character::isLetter) || password.length() < 8) {
+            return true;
+        }
 
         return false;
     }
